@@ -13,7 +13,7 @@ public class TableInfo {
    private Map<String,Integer> offsets;
    private int recordlen;
    private String tblname;
-   
+   public int maxLen; ////PARA VER SI CABE UNA TUPLA EN LA PAGINA
    /**
     * Creates a TableInfo object, given a table name
     * and schema. The constructor calculates the
@@ -29,7 +29,9 @@ public class TableInfo {
       int pos = 0;
       for (String fldname : schema.fields()) {
          offsets.put(fldname, pos);
-         pos += lengthInBytes(fldname);
+         maxLen+=lengthInBytes(fldname);
+         //pos += lengthInBytes(fldname);
+      pos+=INT_SIZE; ////ahora todos los slots tienen el tamaño de un int
       }
       recordlen = pos;
    }
@@ -49,6 +51,18 @@ public class TableInfo {
       this.schema    = schema;
       this.offsets   = offsets;
       this.recordlen = recordlen;
+      
+    /*  ///VER SI FUNCIONA EN CONSTRUCTOR SOBRECARGADO
+      int pos = 0;
+      for (String fldname : schema.fields()) {
+          //offsets.put(fldname, pos);
+          maxLen+=lengthInBytes(fldname);
+          //pos += lengthInBytes(fldname);
+       pos+=INT_SIZE; ////ahora todos los slots tienen el tamaño de un int
+       }
+       this.recordlen = pos;*/
+      
+      
    }
    
    /**

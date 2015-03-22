@@ -30,12 +30,29 @@ class RecordFormatter implements PageFormatter {
     * each string field is given a value of "".
     * @see simpledb.buffer.PageFormatter#format(simpledb.file.Page)
     */
-   public void format(Page page) { ////primero al ultimo poner todos 0
+  /* public void format(Page page) { ////primero al ultimo poner todos 0 FORMAT ANTIGUOOOOOOO
       int recsize = ti.recordLength() + INT_SIZE;//no pescar int size, es 0 si no hay tupla
       for (int pos=0; pos+recsize<=BLOCK_SIZE; pos += recsize) {
          page.setInt(pos, EMPTY);
          makeDefaultRecord(page, pos);
       }
+   }
+   */
+   
+   public void format(Page page){ ///TENGO QUE INICIAR TODO EN 0, BORRAR Y PROBAR EL DE ARRIBA SI NO FUNCIONA
+	   
+	   
+	   
+	   int recsize = INT_SIZE;
+	   for(int i=0;i<BLOCK_SIZE;i+=recsize){
+		   page.setInt(i, 0);
+	   }
+	   
+	   
+		   page.setInt(INT_SIZE, BLOCK_SIZE-1);   ////el ultimo string tiene que haber sido "insertado" alfinal
+	   
+	   
+	   
    }
    
    private void makeDefaultRecord(Page page, int pos) { ///YA NO VA A SERVIR
