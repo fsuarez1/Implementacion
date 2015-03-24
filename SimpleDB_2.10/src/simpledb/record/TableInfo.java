@@ -29,7 +29,19 @@ public class TableInfo {
       int pos = 0;
       for (String fldname : schema.fields()) {
          offsets.put(fldname, pos);
+       
+         
          maxLen+=lengthInBytes(fldname);
+         
+         int fldtype = schema.type(fldname);
+         if (fldtype == INTEGER)
+         {
+        	////NO HAGO NADA PORQUE NO NECESITO UN PUNTERO EXTRRA
+         }
+         else{
+        	 maxLen+=INT_SIZE; ///LE SUMO EL LARGO DEL PUNTERO Y WEAS
+         }
+         
          //pos += lengthInBytes(fldname);
       pos+=INT_SIZE; ////ahora todos los slots tienen el tamaño de un int
       }

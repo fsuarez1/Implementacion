@@ -148,7 +148,7 @@ public class RecordPage {
     * as "deleted"; the current record does not change. 
     * To get to the next record, call next().
     */
-   public void delete() {
+   public void delete() { ////VER ESTO
       int position = currentpos();
       tx.setInt(blk, position, EMPTY);
    }
