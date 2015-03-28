@@ -44,13 +44,13 @@ class RecordFormatter implements PageFormatter {
 	   
 	   
 	   int recsize = INT_SIZE;
-	   for(int i=0;i<BLOCK_SIZE;i+=recsize){
+	   for(int i=0;i+recsize<BLOCK_SIZE;i+=recsize){
 		   page.setInt(i, 0);
 	   }
 	   
 	   
 		   page.setInt(INT_SIZE, BLOCK_SIZE-1);   ////el ultimo string tiene que haber sido "insertado" alfinal
-	   
+	       
 	   
 	   
    }

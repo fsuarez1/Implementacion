@@ -56,7 +56,7 @@ public class RecordPage {
 	 int nFields=this.ti.schema().fields().size();
 	   
 	   ////OBTENER NUMERO DE RECORDS
-	 int nRecords=tx.getInt(blk, 0);
+	 int nRecords=tx.getInt(blk, 0)-1; ////POR QUE? PORQUE PUEDO
 	   
 	  /////OBTENER POSICION DEL ULTIMO INT
 	 int lastInt=INT_SIZE*2+nRecords*nFields*INT_SIZE;
@@ -125,7 +125,7 @@ public class RecordPage {
   	  int lastString=tx.getInt(blk, INT_SIZE);
       
   	  ////OBTENER TAMAÑO DEL STRING A INSERTAR
-  	  int tamString=val.getBytes().length+4; //le agrego el int del principio?
+  	  int tamString=val.getBytes().length+INT_SIZE; //le agrego el int del principio?
   	  
   	  /////OBTENER POSICION DEL NUEVO STRING(A.K.A PUNTERO)
       int punteroVal=lastString-tamString;
@@ -150,7 +150,20 @@ public class RecordPage {
     */
    public void delete() { ////VER ESTO
       int position = currentpos();
-      tx.setInt(blk, position, EMPTY);
+      //tx.setInt(blk, position, EMPTY);
+      
+      /////OBTENER NUMERO DE CAMPOS
+	 int nFields=this.ti.schema().fields().size();
+	   
+      for(int i=0;i<nFields;i++){
+    	  tx.setInt(blk, position+(i*INT_SIZE), 0);
+      }
+      
+      int nRecords=tx.getInt(blk, 0);
+	  currentslot=nRecords; 
+	   tx.setInt(blk, 0, nRecords-1);
+      
+      
    }
    
    /**
